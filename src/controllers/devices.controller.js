@@ -12,9 +12,9 @@ export const getDevices = async (req, res) => {
 };
 
 export const createNewDevice = async (req, res) => {
-    const { name, model, storage } = req.body;
+    const { name, model, device_storage } = req.body;
 
-    if (name == null || model == null || storage == null) {
+    if (name == null || model == null || device_storage == null) {
         return res.status(400).json({msg: 'Bad Request. Please fill all fields'});
     }
 
@@ -24,10 +24,10 @@ export const createNewDevice = async (req, res) => {
         await pool.request()
             .input("name", sql.VarChar, name)
             .input("model", sql.VarChar, model)
-            .input("storage", sql.VarChar, storage)
+            .input("device_storage", sql.VarChar, device_storage)
             .query(queries.addNewDevice);
 
-        res.json({name, model, storage});
+        res.json({name, model, device_storage});
     } catch (error) {
         res.status(500);
         res.send(error.message);
@@ -38,7 +38,7 @@ export const getDeviceById = async (req, res) => {
     const {id} = req.params;
 
     const pool = await getConnection();
-    const result = await pool.request().input('Id', id).query(queries.getDeviceById);
+    const result = await pool.request().input('id', id).query(queries.getDeviceById);
 
     res.send(result.recordset[0]);
 };
@@ -47,7 +47,7 @@ export const deleteDeviceById = async (req, res) => {
     const {id} = req.params;
 
     const pool = await getConnection();
-    const result = await pool.request().input('Id', id).query(queries.deleteDevice);
+    const result = await pool.request().input('id', id).query(queries.deleteDevice);
 
     res.sendStatus(204);
 };
@@ -60,10 +60,10 @@ export const getTotalDevices = async (req, res) => {
 };
 
 export const updateDeviceById = async (req, res) => {
-    const { name, model, storage } = req.body;
+    const { name, model, device_storage } = req.body;
     const {id} = req.params;
 
-    if (name == null || model == null || storage == null) {
+    if (name == null || model == null || device_storage == null) {
         return res.status(400).json({msg: 'Bad Request. Please fill all fields'});
     }
 
@@ -71,9 +71,9 @@ export const updateDeviceById = async (req, res) => {
     await pool.request()
         .input('name', sql.VarChar, name)
         .input('model', sql.VarChar, model)
-        .input('storage', sql.VarChar, storage)
+        .input('device_storage', sql.VarChar, device_storage)
         .input('id', sql.Int, id)
         .query(queries.updateDeviceById);
 
-    res.json({name, model, storage});
+    res.json({name, model, device_storage});
 };

@@ -6,14 +6,14 @@ const router = Router();
 
 router.get("/devices", getDevices);
 
-router.post("/devices", createNewDevice);
+router.post("/devices/create", createNewDevice);
 
 router.get("/devices/count", getTotalDevices);
 
 router.get("/devices/:id", getDeviceById);
 
-router.delete("/devices/:id", deleteDeviceById);
+router.delete("/devices/delete/:id", deleteDeviceById);
 
-router.put("/devices/:id", updateDeviceById);
+router.put("/devices/update/:id", updateDeviceById);
 
 export default router;
